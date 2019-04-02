@@ -1,6 +1,9 @@
 import React from 'react';
 import {Scene, Router, Actions} from 'react-native-router-flux';
 import LoginForm from './LoginForm';
+import Main from './Main';
+import Chat from './Chat';
+import CreateProfile from './CreateProfile';
 
 const RouterComponent = () => {
   return(
@@ -12,13 +15,12 @@ const RouterComponent = () => {
          <Scene key="main">
          <Scene
             rightTitle="Add"
-            key="employeeList"
-            component={Main}
-            title="Employee List"
+            key="Main"
+            component={CreateProfile}
+            title=""
             initial
+            hideNavBar
            />
-          <Scene key="employeeCreate" component={EmployeeCreate} title="Create Employee" />
-          <Scene key="employeeEdit" component={EmployeeEdit} title="Edit Employee" />
          </ Scene>
       </Scene>
     </Router>

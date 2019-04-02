@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import {loginUser, passwordChanged, emailChanged} from './actions';
+import {loginUser} from './actions';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -22,7 +22,6 @@ class LoginForm extends Component {
   render() {
     return (
       <Container >
-        <Header />
         <Content contentContainerStyle={{flex: 1}} style={{padding: 20}}>
           <Form style={{alignItems: 'center'}}>
             <Item floatingLabel>
@@ -57,4 +56,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { loginUser, passwordChanged, emailChanged })(LoginForm);
+export default connect(mapStateToProps, { loginUser })(LoginForm);
