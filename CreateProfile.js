@@ -14,6 +14,14 @@ class CreateProfile extends Component {
     this.getImage()
   }
 
+  onButtonPress(id){
+    console.log('I am the delete url ' + id)
+    const userId = firebase.auth().currentUser.uid;
+    const firestore = firebase.firestore();
+    const userRef = firestore.collection('users').doc(userId);
+    let profile = userRef.collection('profile').doc(id).update({picture: ''})
+     }
+
   _pickImage = async () => {
     await Permissions.askAsync(Permissions.CAMERA_ROLL)
      let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,8 +51,13 @@ class CreateProfile extends Component {
      const userRef = firestore.collection('users').doc(userId);
      userRef.collection('profile').get().then((querySnapshot) => {
        querySnapshot.forEach((doc)=> {
+         let map = {};
+         map.data = doc.data();
+         map.id = doc.id;
+         console.log('this is the mao id', map.id);
          console.log('this is the doc data', doc.data())
-         return this.setState({ pictures: [...this.state.pictures, doc.data()]})
+         console.log('this is the pictuer', map.data)
+         return this.setState({ pictures: [...this.state.pictures, map]})
         });
      })
  }
@@ -79,7 +92,15 @@ class CreateProfile extends Component {
           {
             this.state.pictures.map((item, index) => {
             return (
-              <Image source={{uri: item.picture }} style={{ width: 200, height: 200 }}/>
+              <Content>
+              <Image source={{uri: item.data.picture }} style={{ width: 200, height: 200 }}/>
+                <Button transparent
+                  style={{marginTop: 20}}
+                   onPress={this.onButtonPress.bind(this, item.id)}
+                  >
+                  <Text>Delete Pictures</Text>
+                </Button>
+              </Content>
             )})
           }
         </View>

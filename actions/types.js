@@ -6,3 +6,5 @@ export const LOGIN_USER = 'login_user';
 export const MESSAGE_CREATE = 'message_create';
 export const MESSAGE_FETCH = 'message_fetch';
 export const MESSAGE_DELETE = 'message_delete';
+export const PICTURE_CREATE = 'picture_create';
+export const PICTURE_DELETE = 'picture_delete';
