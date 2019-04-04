@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Input, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import * as firebase from 'firebase';
+import {connect} from 'react-redux';
 import { Image, View } from 'react-native';
 import 'firebase/firestore';
 import { ImagePicker, Permissions } from 'expo';
+import {pictureCreate, picturesFetch} from './actions';
 
 class CreateProfile extends Component {
     constructor(){
       super()
-      this.state = {
-       pictures: []
-    };
-    this.getImage()
+  }
+
+  componentWillMount(){
+    this.props.picturesFetch()
   }
 
   onButtonPress(id){
@@ -29,42 +31,12 @@ class CreateProfile extends Component {
        // aspect: [4, 3],
        base64: true
      });
-     let r = Math.random().toString(36).substring(7);
-     //put the image in storage
-     firebase.storage().ref('/images').child(`${r}.jpg`).putString(result.base64, 'base64').then(snapshot => {
-         console.log("uploaded image!")
-     })
-     //put the downlaod url in firestore
-     firebase.storage().ref('/images').child('my_pic.jpg').getDownloadURL().then((url) => {
-       const userId = firebase.auth().currentUser.uid;
-       const firestore = firebase.firestore();
-       const userRef = firestore.collection('users').doc(userId);
-       userRef.collection('profile').doc().set({picture: url});
-     })
-     this.getImage()
+     this.props.pictureCreate(result);
    }
 
 
-   getImage(){
-     const userId = firebase.auth().currentUser.uid;
-     const firestore = firebase.firestore();
-     const userRef = firestore.collection('users').doc(userId);
-     userRef.collection('profile').get().then((querySnapshot) => {
-       querySnapshot.forEach((doc)=> {
-         let map = {};
-         map.data = doc.data();
-         map.id = doc.id;
-         console.log('this is the mao id', map.id);
-         console.log('this is the doc data', doc.data())
-         console.log('this is the pictuer', map.data)
-         return this.setState({ pictures: [...this.state.pictures, map]})
-        });
-     })
- }
-
-
   render(){
-    console.log('these are the pics', this.state.pictures);
+    console.log('these are the pics', this.props.pictures);
     return (
       <Container>
         <Header>
@@ -87,13 +59,12 @@ class CreateProfile extends Component {
           >
           <Text>Upload</Text>
           </Button>
-         <Image source={{ uri: this.state.my_pic }} style={{ width: 200, height: 200 }} />
            <View style={{flex: 1}}>
           {
-            this.state.pictures.map((item, index) => {
+            this.props.pictures.map((item, index) => {
             return (
               <Content>
-              <Image source={{uri: item.data.picture }} style={{ width: 200, height: 200 }}/>
+              <Image source={{uri: item.data.url }} style={{ width: 200, height: 200 }}/>
                 <Button transparent
                   style={{marginTop: 20}}
                    onPress={this.onButtonPress.bind(this, item.id)}
@@ -116,7 +87,13 @@ class CreateProfile extends Component {
       </Container>
     );
   }
-
 }
 
-export default CreateProfile;
+const mapStateToProps = state => {
+  console.log('this is mstp ', state);
+  return {
+  pictures: state.picture.pictures
+  }
+};
+
+export default connect(mapStateToProps, {pictureCreate, picturesFetch})(CreateProfile);

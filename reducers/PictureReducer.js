@@ -1,14 +1,20 @@
 
-import {PICTURE_CREATE, PICTURE_FETCH, PICTURE_DELETE} from '../actions/types';
+import {PICTURE_CREATE, PICTURES_FETCH, PICTURE_DELETE} from '../actions/types';
 const initialState = {
  pictures: [],
 };
 
-export default (state = [], action) => {
+export default (state=initialState, action) => {
   switch(action.type){
     case PICTURE_CREATE:
       return {
-       messages: [action.payload, ...state.pictures]
+      ...state,
+       pictures: [action.payload, ...state.pictures]
+      }
+    case PICTURES_FETCH:
+      return {
+        ...state,
+        pictures: action.payload
       }
     default:
       return state;
