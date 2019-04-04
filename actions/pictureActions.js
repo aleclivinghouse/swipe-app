@@ -50,12 +50,21 @@ export const picturesFetch = () => {
         map.data = doc.data();
         map.id = doc.id;
         arr.push(map);
-        // console.log('this is the mao id', map.id);
-        // console.log('this is the doc data', doc.data())
-        // console.log('this is the picture', map.data)
        });
        console.log('this is the pictures arr ', arr);
        dispatch({ type: PICTURES_FETCH, payload: arr});
     })
+  }
+}
+
+
+export const pictureDelete = (id) => {
+  return (dispatch) => {
+    console.log('I am the delete url ' + id)
+    const userId = firebase.auth().currentUser.uid;
+    const firestore = firebase.firestore();
+    const profileRef = firestore.collection('users').doc(userId).collection('profile').doc(userId);
+    profileRef.collection('pictures').doc(id).delete();
+    dispatch({ type: PICTURE_DELETE, payload: id});
   }
 }

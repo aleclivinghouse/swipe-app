@@ -16,6 +16,11 @@ export default (state=initialState, action) => {
         ...state,
         pictures: action.payload
       }
+    case PICTURE_DELETE:
+    return {
+      ...state,
+      pictures: state.pictures.filter(item => item.id !== action.payload)
+    }
     default:
       return state;
   }

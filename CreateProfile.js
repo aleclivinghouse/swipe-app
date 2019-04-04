@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import { Image, View } from 'react-native';
 import 'firebase/firestore';
 import { ImagePicker, Permissions } from 'expo';
-import {pictureCreate, picturesFetch} from './actions';
+import {pictureCreate, picturesFetch, pictureDelete} from './actions';
 
 class CreateProfile extends Component {
     constructor(){
@@ -17,12 +17,8 @@ class CreateProfile extends Component {
   }
 
   onButtonPress(id){
-    console.log('I am the delete url ' + id)
-    const userId = firebase.auth().currentUser.uid;
-    const firestore = firebase.firestore();
-    const userRef = firestore.collection('users').doc(userId);
-    let profile = userRef.collection('profile').doc(id).update({picture: ''})
-     }
+      this.props.pictureDelete(id);
+    }
 
   _pickImage = async () => {
     await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -64,7 +60,7 @@ class CreateProfile extends Component {
             this.props.pictures.map((item, index) => {
             return (
               <Content>
-              <Image source={{uri: item.data.url }} style={{ width: 200, height: 200 }}/>
+              <Image source={{uri: item.data.url }} style={{ width: 100, height: 100 }}/>
                 <Button transparent
                   style={{marginTop: 20}}
                    onPress={this.onButtonPress.bind(this, item.id)}
@@ -96,4 +92,4 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps, {pictureCreate, picturesFetch})(CreateProfile);
+export default connect(mapStateToProps, {pictureCreate, picturesFetch, pictureDelete})(CreateProfile);
