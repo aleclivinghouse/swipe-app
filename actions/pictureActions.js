@@ -5,7 +5,8 @@ import { Actions } from 'react-native-router-flux';
 import {
   PICTURE_CREATE,
   PICTURES_FETCH,
-  PICTURE_DELETE
+  PICTURE_DELETE,
+  PICTURE_ARRANGE
 } from './types';
 
 export const pictureCreate = (result) => {
@@ -66,5 +67,11 @@ export const pictureDelete = (id) => {
     const profileRef = firestore.collection('users').doc(userId).collection('profile').doc(userId);
     profileRef.collection('pictures').doc(id).delete();
     dispatch({ type: PICTURE_DELETE, payload: id});
+  }
+}
+
+export const pictureArrange = (id) => {
+  return (dispatch) => {
+      dispatch({ type: PICTURE_ARRANGE , payload: id});
   }
 }

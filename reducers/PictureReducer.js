@@ -1,5 +1,5 @@
 
-import {PICTURE_CREATE, PICTURES_FETCH, PICTURE_DELETE} from '../actions/types';
+import {PICTURE_CREATE, PICTURES_FETCH, PICTURE_DELETE, PICTURE_ARRANGE} from '../actions/types';
 const initialState = {
  pictures: [],
 };
@@ -20,6 +20,14 @@ export default (state=initialState, action) => {
     return {
       ...state,
       pictures: state.pictures.filter(item => item.id !== action.payload)
+    }
+    case PICTURE_ARRANGE:
+    return {
+      ...state,
+      pictures: [
+                ...state.pictures.filter(item => item.id === action.payload), 
+                ...state.pictures.filter(item => item.id !== action.payload)
+               ]
     }
     default:
       return state;

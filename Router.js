@@ -3,7 +3,9 @@ import {Scene, Router, Actions} from 'react-native-router-flux';
 import LoginForm from './LoginForm';
 import Main from './Main';
 import Chat from './Chat';
-import CreateProfile from './CreateProfile';
+import ProfileForm from './ProfileForm';
+import ProfileFormWrapper from './ProfileFormWrapper'
+import Pictures from './Pictures';
 
 const RouterComponent = () => {
   return(
@@ -16,7 +18,7 @@ const RouterComponent = () => {
          <Scene
             rightTitle="Add"
             key="Main"
-            component={CreateProfile}
+            component={ProfileFormWrapper}
             title=""
             initial
             hideNavBar

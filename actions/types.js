@@ -9,3 +9,4 @@ export const MESSAGE_DELETE = 'message_delete';
 export const PICTURE_CREATE = 'picture_create';
 export const PICTURE_DELETE = 'picture_delete';
 export const PICTURES_FETCH = 'picture_fetch';
+export const PICTURE_ARRANGE = 'picture_arrange';
