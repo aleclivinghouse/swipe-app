@@ -22,6 +22,27 @@ const renderText = ({ input, label, type, meta: { touched, error, warning } }) =
 );
 
 
+const renderCheckbox = ({ input, label, custom }) => (
+
+    <ListItem>
+        <CheckBox {...input} checked={input.value ? true : false} onPress={() => { input.onChange(!input.value)} } />
+        <Text> {label} </Text>
+    </ListItem>
+
+);
+
+const renderSelect = ({ input, label, children, ...custom }) => (
+
+    <Picker {...input} selectedValue={input.value} onValueChange={(value, index) => input.onChange(value)} children={children} {...custom} />
+);
+
+
+
+
+
+
+
+
 const renderNumber = ({ input, placeholder, meta: { asyncValidating, touched, error } }) => (
     <ListItem>
         <InputGroup iconRight>
@@ -38,20 +59,6 @@ const renderPassword = ({ input, placeholder, meta: {touched, error }, ...custom
             <Input placeholder="Password" {...input} {...custom} />
         </InputGroup>
     </ListItem>
-);
-
-const renderCheckbox = ({ input, label, custom }) => (
-
-    <ListItem>
-        <CheckBox {...input} checked={input.value ? true : false} onPress={() => input.onChange(!input.value)} />
-        <Text> {label} </Text>
-    </ListItem>
-
-);
-
-const renderSelect = ({ input, label, children, ...custom }) => (
-
-    <Picker {...input} selectedValue={input.value} onValueChange={(value, index) => input.onChange(value)} children={children} {...custom} />
 );
 
 
