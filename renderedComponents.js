@@ -8,7 +8,8 @@ ListItem,
 InputGroup,
 TextInput,
 CheckBox,
-Picker
+Picker,
+Textarea
 } from 'native-base';
 
 const renderText = ({ input, label, type, meta: { touched, error, warning } }) => (
@@ -21,11 +22,22 @@ const renderText = ({ input, label, type, meta: { touched, error, warning } }) =
     </ListItem>
 );
 
+const renderTextArea = ({ input, label, type, meta: { touched, error, warning } }) => (
+    <ListItem>
+        <InputGroup iconRight>
+            <Icon name="ios-person" />
+            <Textarea {...input} placeholder={label} type={type} style={{height: 100}}/>
+            {touched && ((error && <Text>{error}</Text>) || (warning && <Text>{warning}</Text>))}
+        </InputGroup>
+    </ListItem>
+);
+
+
 
 const renderCheckbox = ({ input, label, custom }) => (
 
     <ListItem>
-        <CheckBox {...input} checked={input.value ? true : false} onPress={() => { input.onChange(!input.value)} } />
+        <CheckBox {...input} checked={input.value ? true : false} onPress={() => { input.onChange(!input.value)}} />
         <Text> {label} </Text>
     </ListItem>
 
@@ -62,4 +74,4 @@ const renderPassword = ({ input, placeholder, meta: {touched, error }, ...custom
 );
 
 
-export { renderText, renderNumber, renderPassword, renderCheckbox, renderSelect, };
+export { renderText, renderTextArea, renderNumber, renderPassword, renderCheckbox, renderSelect};

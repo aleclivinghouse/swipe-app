@@ -26,6 +26,7 @@ export const pictureCreate = (result) => {
               let map = {};
               map.data = doc.data();
               map.id = doc.id;
+              map.userId = userId;
               console.log('this is the mao id', map.id);
               console.log('this is the doc data', doc.data())
               console.log('this is the picture', map.data)
@@ -52,7 +53,6 @@ export const picturesFetch = () => {
         map.id = doc.id;
         arr.push(map);
        });
-       console.log('this is the pictures arr ', arr);
        dispatch({ type: PICTURES_FETCH, payload: arr});
     })
   }
@@ -61,7 +61,6 @@ export const picturesFetch = () => {
 
 export const pictureDelete = (id) => {
   return (dispatch) => {
-    console.log('I am the delete url ' + id)
     const userId = firebase.auth().currentUser.uid;
     const firestore = firebase.firestore();
     const profileRef = firestore.collection('users').doc(userId).collection('profile').doc(userId);

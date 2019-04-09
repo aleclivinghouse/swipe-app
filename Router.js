@@ -1,29 +1,47 @@
 import React from 'react';
 import {Scene, Router, Actions} from 'react-native-router-flux';
 import LoginForm from './LoginForm';
-import Main from './Main';
 import Chat from './Chat';
 import ProfileForm from './ProfileForm';
-import ProfileFormWrapper from './ProfileFormWrapper'
+import RegisterForm from './RegisterForm';
+import ProfileFormWrapper from './ProfileFormWrapper';
 import Pictures from './Pictures';
+import Main from './Main';
+import YourProfile from './YourProfile';
 
 const RouterComponent = () => {
   return(
     <Router>
       <Scene key="root" hideNavBar>
-        <Scene key="auth">
-         <Scene key="login" component={LoginForm} title="Please Login" initial/>
-         </Scene>
-         <Scene key="main">
+         <Scene key="LoginForm" component={LoginForm} title="" initial hideNavBar/>
+           <Scene
+              rightTitle="Add"
+              key="Home"
+              component={Main}
+              title=""
+              hideNavBar
+             />
          <Scene
             rightTitle="Add"
-            key="Main"
+            key="ProfileForm"
             component={ProfileFormWrapper}
             title=""
-            initial
             hideNavBar
            />
-         </ Scene>
+           <Scene
+              rightTitle="Add"
+              key="RegisterForm"
+              component={RegisterForm}
+              title=""
+              hideNavBar
+             />
+               <Scene
+                  rightTitle="Add"
+                  key="YourProfile"
+                  component={YourProfile}
+                  title=""
+                  hideNavBar
+                 />
       </Scene>
     </Router>
   );

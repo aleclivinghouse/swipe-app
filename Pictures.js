@@ -47,7 +47,7 @@ class Pictures extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Header</Title>
+            <Title>Manage Pictures</Title>
           </Body>
           <Right />
         </Header>

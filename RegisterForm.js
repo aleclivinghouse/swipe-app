@@ -1,12 +1,11 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Container, Header, Content, Icon, Title, Body, Form, Item, Input, Label, Button, Left, Right, Footer, FooterTab } from 'native-base';
+import { Container, Header, Footer, Content, Form, Item, Input, Label, Button, Left, Right, Icon, Body, FooterTab, Title } from 'native-base';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import {loginUser} from './actions';
+import {registerUser} from './actions';
 import { Actions } from 'react-native-router-flux';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
   constructor(props) {
   super(props);
   this.state = { email: '', password: '' };
@@ -17,10 +16,10 @@ class LoginForm extends Component {
     email: this.state.email,
     password: this.state.password
   };
-  this.props.loginUser(userData);
+  this.props.registerUser(userData)
  }
- RegisterPress(){
-   Actions.RegisterForm()
+ LoginPress(){
+   Actions.LoginForm()
  }
 
 
@@ -34,7 +33,7 @@ class LoginForm extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Login</Title>
+            <Title>Register</Title>
           </Body>
           <Right />
         </Header>
@@ -62,9 +61,9 @@ class LoginForm extends Component {
             </Button>
           </Form>
           <Button full bordered info
-            onPress={this.RegisterPress.bind(this)}
+            onPress={this.LoginPress.bind(this)}
             >
-            <Text>Register</Text>
+            <Text>Login</Text>
           </Button>
         </Content>
         <Footer>
@@ -84,4 +83,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { loginUser })(LoginForm);
+export default connect(mapStateToProps, { registerUser })(RegisterForm);

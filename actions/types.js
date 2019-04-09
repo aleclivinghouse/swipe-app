@@ -10,3 +10,5 @@ export const PICTURE_CREATE = 'picture_create';
 export const PICTURE_DELETE = 'picture_delete';
 export const PICTURES_FETCH = 'picture_fetch';
 export const PICTURE_ARRANGE = 'picture_arrange';
+export const ADD_PROFILE = 'add_profile';
+export const USER_PROFILE_FETCH = 'user_profile_fetch';

@@ -17,7 +17,10 @@ ListItem,
 Picker,
 Left,
 Right,
-Body
+Body,
+Form,
+Footer,
+FooterTab
 } from 'native-base';
 
 const validate = values => {
@@ -33,7 +36,6 @@ const validate = values => {
 
 
 class ProfileForm extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -115,6 +117,14 @@ class ProfileForm extends Component {
                 <List>
                     <Field name="FirstName" placeholder="John" type="text" label="first name" component={renders.renderText} />
                     <Field name="LastName" placeholder="Doe" type="text" label="last name" component={renders.renderText} />
+                      <Field name="Bio"  type="text" label="Bio" component={renders.renderTextArea} />
+                        <Row>
+                            <Col style={{justifyContent: 'center', alignItems: 'center' }}>
+                                <Title style={{color: 'grey'}}>Pick Five Compatibility Points</Title>
+                                <Text style={{color: 'grey'}}> Your answers will not be seen </Text>
+                            </Col>
+                        </Row>
+
                     <Field name="instrument" component={renders.renderCheckbox} label="I currently play a musical instrument" onChange={this.handleCheck.bind(this, 'instrument')}/>
                     <Field name="sports" component={renders.renderCheckbox} label="I follow sports closely" onChange={this.handleCheck.bind(this, 'sports')}/>
                     <Field name="fashion" component={renders.renderCheckbox} label="I follow the fashion/lifestyle industry" onChange={this.handleCheck.bind(this, 'fashion')}/>
@@ -128,22 +138,6 @@ class ProfileForm extends Component {
                     <Field name="technology" component={renders.renderCheckbox} label="I am passionate about technology" onChange={this.handleCheck.bind(this, 'technology')}/>
                     <Field name="science" component={renders.renderCheckbox} label="I am passionate about science" onChange={this.handleCheck.bind(this, 'science')}/>
 
-
-                    <Row>
-                        <Col style={{width: 120, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{color: 'grey'}}> Type of Vehicle </Text>
-                        </Col>
-                        <Col>
-                            <Field name="vehicleType" mode="dropdown" style={{left: 10}} component={renders.renderSelect} >
-                                <Item label="Car" value="Car" />
-                                <Item label="Bus" value="Bus" />
-                                <Item label="Bajaji" value="Bajaji" />
-                                <Item label="Motorbike" value="Motobike" />
-                                <Item label="Camel" value="Camel" />
-                            </Field>
-                        </Col>
-                    </Row>
-
                     <ListItem>
                         <Row>
                             <Col>
@@ -153,17 +147,20 @@ class ProfileForm extends Component {
                             </Col>
 
                             <Col style={{width: 5}}></Col>
-
                             <Col>
-                                <Button success block onPress={reset} disabled={this.state.disabled}>
-                                  <Text>Clear Fields</Text>
-                                </Button>
+
                             </Col>
                         </Row>
                     </ListItem>
-
                 </List>
               </Content>
+              <Footer>
+                <FooterTab>
+                  <Button full>
+                    <Text>Footer</Text>
+                  </Button>
+                </FooterTab>
+              </Footer>
             </Container>
         )
     }

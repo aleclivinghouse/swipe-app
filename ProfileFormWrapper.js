@@ -1,21 +1,15 @@
 import React, {Component} from 'react';
 import ProfileForm from './ProfileForm';
+import {profileCreate} from './actions';
+import {connect} from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 class ProfileFormWrapper extends Component{
   handleSubmit = values => {
-    // console.log('these are the values' values);
-    // let count = 0;
-    // for(let value of values){
-    //   if(value === true){
-    //     count ++;
-    //   }
-   //  }
-   //
-   //  if(count !== 5){
-   //    alert('please pick 5 checkboxes')
-   //  } else {
-   //  alert('here are the form values ' + values);
-   // }
+    alert('here are the form values ' + values);
+    console.log('values', values);
+    this.props.profileCreate(values);
+    Actions.Main();
   }
 
   render(){
@@ -25,4 +19,4 @@ class ProfileFormWrapper extends Component{
   }
 }
 
-export default ProfileFormWrapper;
+export default connect(null, {profileCreate})(ProfileFormWrapper);
