@@ -57,14 +57,14 @@ export const profileCreate = (values) => {
           })
         }
         console.log('this is the userArr before dispatch', userArr);
-        dispatch({type: USER_PROFILE_FETCH, payload: userArr});
+        dispatch({type: USER_PROFILE_FETCH, payload: userArr[0]});
       });
     }
   }
 
 
-  export fetchSwipeUsers = () => {
-    return(dispatch) => {
-
-    }
-  }
+  // export const fetchSwipeUsers = () => {
+  //   return(dispatch) => {
+  //
+  //   }
+  // }

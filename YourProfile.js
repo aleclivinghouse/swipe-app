@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { connect } from 'react-redux'
 import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
-import {userProfileFetch, picturesFetch} from './actions';
+import {userProfileFetch} from './actions';
 
 const cards = [
   {
@@ -12,16 +12,12 @@ const cards = [
   },
 ];
 class YourProfile extends Component {
-
   componentWillMount(){
     this.props.userProfileFetch()
-    this.props.picturesFetch()
   }
   render() {
-    console.log('this is the user profile', this.props.profile);
-    let profile = this.props.profile;
-    let images = this.props.pictures;
-    console.log('these are the images', images);
+    console.log('this is the user profile', this.props);
+    let profile = this.props;
     return (
       <Container>
         <Header />
@@ -58,9 +54,8 @@ class YourProfile extends Component {
 const mapStateToProps = state => {
   console.log('this is mstp ', state);
   return {
-  profile: state.profile.userProfile,
-  pictures: state.picture.pictures
+    profile: state.profile.userProfile,
   }
 };
 
-export default connect(mapStateToProps, {userProfileFetch, picturesFetch})(YourProfile);
+export default connect(mapStateToProps, {userProfileFetch})(YourProfile);
