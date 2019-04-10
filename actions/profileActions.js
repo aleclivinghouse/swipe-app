@@ -27,38 +27,53 @@ export const profileCreate = (values) => {
 
 
   export const userProfileFetch = () => {
-    return(dispatch) => {
+    return async (dispatch) => {
       //we have to get the user then attach all their pictures
 
       const userId = firebase.auth().currentUser.uid;
       const firestore = firebase.firestore();
-      const profileRef = firestore.collection('users').doc(userId).collection('profile');
+      const profileRef = await firestore.collection('users').doc(userId).collection('profile').get();
       let userArr = [];
-
-      profileRef.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      for(let doc of profileRef.docs){
+        let map = {};
+        map.id =doc.id;
+        map.data = doc.data();
+        userArr.push(map);
+      }
+      console.log('this is the user arr async await', userArr);
+      for(let user of userArr){
+        user.pics = [];
+        let pictureRef = await firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures').get();
+        console.log('this is the picture ref', pictureRef);
+        for(let doc of pictureRef.docs){
           let map = {};
           map.id =doc.id;
           map.data = doc.data();
-          userArr.push(map);
-        });
-        for(let user of userArr){
-          let picsArr = [];
-          console.log('this is the user ', user);
-          let pictureRef = firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures');
-          pictureRef.get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              let map = {};
-              map.id =doc.id;
-              map.data = doc.data();
-              picsArr.push(map);
-            });
-            user.pics = picsArr;
-          })
+          user.pics.push(map);
         }
-        console.log('this is the userArr before dispatch', userArr);
-        dispatch({type: USER_PROFILE_FETCH, payload: userArr[0]});
-      });
+      }
+      console.log('this is the user with pics arr async await', userArr);
+      dispatch({type: USER_PROFILE_FETCH, payload: userArr[0]});
+      // }).then((userArr) => {
+      //   for(let user of userArr){
+      //     user.pics = [];
+      //     console.log('this is the user ', user);
+      //     let pictureRef = firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures');
+      //     pictureRef.get().then((querySnapshot) => {
+      //       querySnapshot.forEach((doc) => {
+      //         let map = {};
+      //         map.id =doc.id;
+      //         map.data = doc.data();
+      //         user.pics.push(map);
+      //         console.log('user.pics', user.pics);
+      //       });
+      //     })
+      //   }
+      //   return userArr;
+      // }).then((userArr) =>{
+      //   console.log('this is the userArr before dispatch', userArr);
+      //   dispatch({type: USER_PROFILE_FETCH, payload: userArr[0]});
+      // })
     }
   }
 

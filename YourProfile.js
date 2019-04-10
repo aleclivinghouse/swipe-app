@@ -12,39 +12,53 @@ const cards = [
   },
 ];
 class YourProfile extends Component {
+  constructor(){
+    super()
+}
   componentWillMount(){
     this.props.userProfileFetch()
   }
+
   render() {
-    console.log('this is the user profile', this.props);
-    let profile = this.props;
+    let deckitems;
+    let profile = this.props.profile;
+    let profileItems;
+    if(this.props.profile === null || Object.keys(this.props.profile).length === 0){
+      profileItems =  <Text>Loading</Text>
+    } else {
+      console.log('this is the profile that isnt null', this.props.profile)
+      console.log('these are the pics', this.props.profile.pics);
+      profileItems = (
+        <DeckSwiper
+          dataSource={cards}
+          renderItem={item =>
+            <Card style={{ elevation: 3 }}>
+              <CardItem>
+                <Left>
+                  <Thumbnail source={{uri: profile.pics[1].data.url}} />
+                  <Body>
+                    <Text>{profile.data.firstname} {profile.data.lastname}</Text>
+                    <Text note>NativeBase</Text>
+                  </Body>
+                </Left>
+              </CardItem>
+              <CardItem cardBody>
+                <Image style={{ height: 300, flex: 1 }} source={{uri: profile.pics[1].data.url}} />
+              </CardItem>
+              <CardItem>
+                <Icon name="heart" style={{ color: '#ED4A6A' }} />
+                <Text>{item.name}</Text>
+              </CardItem>
+            </Card>
+          }
+        />
+      );
+    }
     return (
       <Container>
         <Header />
         <View>
-          <DeckSwiper
-            dataSource={cards}
-            renderItem={item =>
-              <Card style={{ elevation: 3 }}>
-                <CardItem>
-                  <Left>
-                    <Thumbnail source={profile.data} />
-                    <Body>
-                      <Text>{item.text}</Text>
-                      <Text note>NativeBase</Text>
-                    </Body>
-                  </Left>
-                </CardItem>
-                <CardItem cardBody>
-                  <Image style={{ height: 300, flex: 1 }} source={item.image} />
-                </CardItem>
-                <CardItem>
-                  <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                  <Text>{item.name}</Text>
-                </CardItem>
-              </Card>
-            }
-          />
+          {profileItems}
         </View>
       </Container>
     );
