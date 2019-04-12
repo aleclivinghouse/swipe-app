@@ -12,11 +12,13 @@ class RegisterForm extends Component {
 }
 
   onButtonPress() {
+    console.log('button press firing')
     const userData = {
-    email: this.state.email,
-    password: this.state.password
+    email: this.state.email.toLowerCase().trim(),
+    password: this.state.password.trim()
   };
-  this.props.registerUser(userData)
+  console.log(userData.email, userData.password);
+  this.props.registerUser(userData.email, userData.password)
  }
  LoginPress(){
    Actions.LoginForm()

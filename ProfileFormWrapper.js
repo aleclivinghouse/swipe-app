@@ -9,7 +9,7 @@ class ProfileFormWrapper extends Component{
     alert('here are the form values ' + values);
     console.log('values', values);
     this.props.profileCreate(values);
-    Actions.Main();
+    Actions.Home();
   }
 
   render(){

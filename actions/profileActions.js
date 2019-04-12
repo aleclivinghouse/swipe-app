@@ -2,7 +2,8 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import { Actions } from 'react-native-router-flux';
 import {
-  USER_PROFILE_FETCH
+  USER_PROFILE_FETCH,
+  SWIPE_USERS_FETCH
 } from './types'
 
 export const profileCreate = (values) => {
@@ -40,7 +41,6 @@ export const profileCreate = (values) => {
         map.data = doc.data();
         userArr.push(map);
       }
-      console.log('this is the user arr async await', userArr);
       for(let user of userArr){
         user.pics = [];
         let pictureRef = await firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures').get();
@@ -52,34 +52,53 @@ export const profileCreate = (values) => {
           user.pics.push(map);
         }
       }
-      console.log('this is the user with pics arr async await', userArr);
       dispatch({type: USER_PROFILE_FETCH, payload: userArr[0]});
-      // }).then((userArr) => {
-      //   for(let user of userArr){
-      //     user.pics = [];
-      //     console.log('this is the user ', user);
-      //     let pictureRef = firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures');
-      //     pictureRef.get().then((querySnapshot) => {
-      //       querySnapshot.forEach((doc) => {
-      //         let map = {};
-      //         map.id =doc.id;
-      //         map.data = doc.data();
-      //         user.pics.push(map);
-      //         console.log('user.pics', user.pics);
-      //       });
-      //     })
-      //   }
-      //   return userArr;
-      // }).then((userArr) =>{
-      //   console.log('this is the userArr before dispatch', userArr);
-      //   dispatch({type: USER_PROFILE_FETCH, payload: userArr[0]});
-      // })
     }
   }
 
+export const fetchSwipeUsers = () => {
+    return async (dispatch) => {
+          console.log('fetch in action fired');
+          const userId = firebase.auth().currentUser.uid;
+          const firestore = firebase.firestore();
+          const userRef = await firestore.collection('users').get();
+          let userArr = [];
+          for(let doc of userRef.docs){
+            let profileRef = await firestore.collection('users').doc(doc.id).collection('profile').get();
+              for(let doc of profileRef.docs){
+                let map = {};
+                map.id =doc.id;
+                map.data = doc.data();
+                userArr.push(map);
+              }
+          }
+          for(let user of userArr){
+            user.pics = [];
+            let pictureRef = await firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures').get();
+            console.log('this is the picture ref', pictureRef);
+            for(let doc of pictureRef.docs){
+              let map = {};
+              map.id =doc.id;
+              map.data = doc.data();
+              user.pics.push(map);
+            }
+          }
+          console.log('this is the userArr', userArr);
+    } //end
+}
 
-  // export const fetchSwipeUsers = () => {
-  //   return(dispatch) => {
-  //
-  //   }
+      // for(let user of userArr){
+      //   let pictureRef = await firestore.collection('users').doc().collection('profile').doc().collection('pictures').doc().get();
+      //   for(let doc of pictureRef.docs){
+      //     if(doc.id !== userId){
+      //       let map = {};
+      //       map.id =doc.id;
+      //       map.data = doc.data();
+      //       user.pics.push(map);
+      //    }
+      //   }
+      // }
+      // console.log('this is the user with pics arr async await', userArr);
+      // dispatch({type: SWIPE_USERS_FETCH, payload: userArr});
+  //   } //end
   // }

@@ -1,5 +1,5 @@
 
-import {ADD_PROFILE, USER_PROFILE_FETCH} from '../actions/types';
+import {ADD_PROFILE, USER_PROFILE_FETCH, SWIPE_USERS_FETCH} from '../actions/types';
 
 const initialState = {
   userProfile: {},
@@ -14,10 +14,15 @@ export default (state=initialState, action) => {
       userProfile: action.payload
     }
     case USER_PROFILE_FETCH:
-    console.log('here is the action payload', action.payload);
     return{
       ...state,
       userProfile: action.payload
+    }
+    case SWIPE_USERS_FETCH:
+      console.log('here is the action payload', action.payload);
+    return {
+      ...state,
+      otherProfiles: action.payload
     }
     default:
       return state

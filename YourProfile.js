@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { connect } from 'react-redux'
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import { Container, Header, View, DeckSwiper, Card, CardItem, Button, Thumbnail, Text, Left, Right, Title, Body, Icon } from 'native-base';
 import {userProfileFetch} from './actions';
+import { Actions } from 'react-native-router-flux';
 
 const cards = [
   {
@@ -19,6 +20,9 @@ class YourProfile extends Component {
     this.props.userProfileFetch()
   }
 
+  HomePress(){
+    Actions.Home()
+  }
   render() {
     let deckitems;
     let profile = this.props.profile;
@@ -37,7 +41,7 @@ class YourProfile extends Component {
                 <Left>
                   <Thumbnail source={{uri: profile.pics[1].data.url}} />
                   <Body>
-                    <Text>{profile.data.firstname} {profile.data.lastname}</Text>
+                    <Text>{profile.data.FirstName} {profile.data.LastName}</Text>
                     <Text note>NativeBase</Text>
                   </Body>
                 </Left>
@@ -47,7 +51,7 @@ class YourProfile extends Component {
               </CardItem>
               <CardItem>
                 <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                <Text>{item.name}</Text>
+                <Text>{profile.data.Bio}</Text>
               </CardItem>
             </Card>
           }
@@ -56,7 +60,16 @@ class YourProfile extends Component {
     }
     return (
       <Container>
-        <Header />
+        <Header>
+          <Right>
+            <Button transparent onPress={this.HomePress.bind(this)}>
+              <Text>Home</Text>
+            </Button>
+          </Right>
+          <Body>
+            <Title>Profile</Title>
+          </Body>
+        </Header>
         <View>
           {profileItems}
         </View>
@@ -66,7 +79,6 @@ class YourProfile extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('this is mstp ', state);
   return {
     profile: state.profile.userProfile,
   }

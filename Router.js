@@ -8,6 +8,7 @@ import ProfileFormWrapper from './ProfileFormWrapper';
 import Pictures from './Pictures';
 import Main from './Main';
 import YourProfile from './YourProfile';
+import Swipe from './Swipe';
 
 const RouterComponent = () => {
   return(
@@ -21,6 +22,19 @@ const RouterComponent = () => {
               title=""
               hideNavBar
              />
+             <Scene
+                rightTitle="Add"
+                key="Pictures"
+                component={Pictures}
+                title=""
+                hideNavBar
+               />
+               <Scene
+                  key="Swipe"
+                  component={Swipe}
+                  title=""
+                  hideNavBar
+                 />
          <Scene
             rightTitle="Add"
             key="ProfileForm"

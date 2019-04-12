@@ -11,6 +11,13 @@ class Main extends Component {
     Actions.YourProfile()
   }
 
+  ImagePress(){
+    Actions.Pictures()
+  }
+  SwipePress(){
+    Actions.Swipe()
+  }
+
   render(){
     return (
       <Container>
@@ -23,12 +30,19 @@ class Main extends Component {
     <Body>
       <Title>Home</Title>
     </Body>
-    <Right />
+    <Right >
+      <Button transparent onPress={this.SwipePress.bind(this)}>
+        <Text>Swipe</Text>
+      </Button>
+    </Right >
   </Header>
   <Content>
     <Text>
       This is Content Section
     </Text>
+    <Button full bordered info onPress={this.ImagePress.bind(this)}>
+      <Text>Manage Images</Text>
+    </Button>
   </Content>
   <Footer>
     <FooterTab>

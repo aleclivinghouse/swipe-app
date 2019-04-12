@@ -6,6 +6,7 @@ import { Image, View, Dimensions} from 'react-native';
 import 'firebase/firestore';
 import { ImagePicker, Permissions } from 'expo';
 import {pictureCreate, picturesFetch, pictureDelete, pictureArrange} from './actions';
+import { Actions } from 'react-native-router-flux';
 
 class Pictures extends Component {
     constructor(){
@@ -22,6 +23,10 @@ class Pictures extends Component {
 
   onArrangePress(id){
     this.props.pictureArrange(id)
+  }
+
+  onHomePress(){
+    Actions.Home()
   }
 
   _pickImage = async () => {
@@ -42,8 +47,8 @@ class Pictures extends Component {
       <Container>
         <Header>
           <Left>
-            <Button transparent>
-              <Icon name='menu' />
+            <Button transparent full bordered info onPress={this.onHomePress.bind(this)}>
+              <Text>Home</Text>
             </Button>
           </Left>
           <Body>

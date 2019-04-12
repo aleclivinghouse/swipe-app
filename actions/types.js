@@ -12,3 +12,6 @@ export const PICTURES_FETCH = 'picture_fetch';
 export const PICTURE_ARRANGE = 'picture_arrange';
 export const ADD_PROFILE = 'add_profile';
 export const USER_PROFILE_FETCH = 'user_profile_fetch';
+export const SWIPE_USERS_FETCH = 'swipe_users_fetch';
+export const   REGISTER_USER_SUCCESS = 'register_user_success';
+export const REGISTER_USER = 'register_user';
