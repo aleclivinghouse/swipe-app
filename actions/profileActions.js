@@ -44,7 +44,7 @@ export const profileCreate = (values) => {
       for(let user of userArr){
         user.pics = [];
         let pictureRef = await firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures').get();
-        console.log('this is the picture ref', pictureRef);
+        // console.log('this is the picture ref', pictureRef);
         for(let doc of pictureRef.docs){
           let map = {};
           map.id =doc.id;
@@ -58,24 +58,42 @@ export const profileCreate = (values) => {
 
 export const fetchSwipeUsers = () => {
     return async (dispatch) => {
-          console.log('fetch in action fired');
+          // console.log('fetch in action fired');
           const userId = firebase.auth().currentUser.uid;
           const firestore = firebase.firestore();
           const userRef = await firestore.collection('users').get();
+          //find the already matched
+          let matchedArr = [];
+          let alreadyMatched = await firestore.collection("users").doc(userId).collection("alreadySwiped").get();
+          for(let doc of alreadyMatched.docs){
+            console.log('this is the doc', doc)
+            let map = {};
+            map.data = doc.data()
+            matchedArr.push(map.data.user);
+          }
+
+          console.log('this is the matched arr', matchedArr);
+
           let userArr = [];
           for(let doc of userRef.docs){
+            if(matchedArr.includes(doc.id) === true){
+              console.log('this wont get included', doc.id);
+            }
+
+            if(matchedArr.includes(doc.id) === false){
             let profileRef = await firestore.collection('users').doc(doc.id).collection('profile').get();
               for(let doc of profileRef.docs){
                 let map = {};
-                map.id =doc.id;
+                map.id = doc.id;
                 map.data = doc.data();
                 userArr.push(map);
               }
+            }
           }
           for(let user of userArr){
             user.pics = [];
             let pictureRef = await firestore.collection('users').doc(user.id).collection('profile').doc(user.id).collection('pictures').get();
-            console.log('this is the picture ref', pictureRef);
+            // console.log('this is the picture ref', pictureRef);
             for(let doc of pictureRef.docs){
               let map = {};
               map.id =doc.id;
@@ -83,7 +101,13 @@ export const fetchSwipeUsers = () => {
               user.pics.push(map);
             }
           }
-          console.log('this is the userArr', userArr);
+          let finalArr = [];
+          for(let user of userArr){
+            if(user.pics.length > 0){
+              finalArr.push(user);
+            }
+          }
+          dispatch({type: SWIPE_USERS_FETCH, payload: finalArr});
     } //end
 }
 
